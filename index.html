@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Title name  -->
+    <title>M D K | W A T C H</title>
+
+    <!-- Title logo link -->
+    <link rel="shortcut icon" sizes="32x32" href="./Stopwatch_Title.ico" />
+
+    <!-- font awesome style sheet link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+
+<body>
+    <div class="watch-content">
+        <h2>STOP WATCH</h2>
+        <div class="time">
+            <div>
+                <span class="digit" id="hr">00</span>
+                <span class="txt">Hr</span>
+            </div>
+            <div>
+                <span class="digit" id="min">00</span>
+                <span class="txt">Min</span>
+            </div>
+            <div>
+                <span class="digit" id="sec">00</span>
+                <span class="txt">Sec</span>
+            </div>
+            <div>
+                <span class="digit" id="count">00</span>
+                <span class="txt">Millisec</span>
+            </div>
+        </div>
+
+        <div class="btns">
+            <button onclick="start()">Start</button>
+            <button onclick="stop()">Stop</button>
+            <button onclick="reset()">Reset</button>
+        </div>
+    </div>
+
+</body>
+
+<style>
+    /*----------------------------------------------------------------------
+                            OVERALL STYLE STARTS HERE                         
+     ----------------------------------------------------------------------*/
+
+    :root {
+        --white: #fff;
+        --brown: #414141;
+        --light-brown: #dbd8d899;
+        --border: .1rem solid var(--brown);
+        --box-shadow: 0px 2px 20px 2px var(--white);
+        --box-shadow-brown: 0px 2px 20px 2px var(--brown);
+        --text-shadow: .1rem .1rem .1rem var(--white);
+        --text-shadow-brown: .1rem .1rem .1rem var(--brown);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        text-decoration: none;
+    }
+
+    html {
+        overflow: hidden;
+        scroll-behavior: smooth;
+        scroll-padding-top: 6rem;
+    }
+
+    body {
+        position: relative;
+        min-height: 100vh;
+        min-width: 100%;
+        background-image: url(./StopWatch_Bg.png);
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%);
+        z-index: 2;
+    }
+
+    body::after {
+        content: "";
+        position: absolute;
+        top: 5rem;
+        left: 5rem;
+        right: 5rem;
+        bottom: 5rem;
+        background: linear-gradient(#dbd8d899 0%, #b6b6b699 100%);
+        box-shadow: var(--box-shadow);
+        z-index: 3;
+    }
+
+    .watch-content {
+        position: absolute;
+        z-index: 1000;
+        width: 100%;
+        text-align: center;
+        margin: 6rem auto;
+        padding: 1rem;
+    }
+
+    .watch-content h2 {
+        font-size: 1.5rem;
+        color: var(--brown);
+        letter-spacing: .3rem;
+        width: fit-content;
+        margin: 0 auto;
+        padding: .5rem 5rem;
+        border-radius: 5rem;
+        box-shadow: var(--box-shadow);
+        text-shadow: var(--text-shadow);
+        border: var(--border);
+    }
+
+    .watch-content .time {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        text-align: center;
+        width: 40%;
+        margin: 5rem auto;
+    }
+
+    .watch-content .time div {
+        background: var(--white);
+        height: 7rem;
+        width: 7rem;
+        border-radius: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 0 auto;
+        box-shadow: var(--box-shadow-brown);
+        color: var(--brown);
+    }
+
+    .watch-content .time div .digit {
+        font-size: 2rem;
+    }
+
+    .btns {
+        width: 100%;
+    }
+
+    .btns button {
+        height: 2.8rem;
+        font-size: 1.3rem;
+        width: 9rem;
+        color: var(--brown);
+        background: var(--white);
+        box-shadow: var(--box-shadow);
+        border: var(--border);
+        margin: 2rem;
+        border-radius: 2rem .5rem 2rem .5rem;
+        letter-spacing: .1rem;
+    }
+
+    .btns button:hover {
+        background: transparent;
+        cursor: pointer;
+        color: var(--white);
+        text-shadow: var(--text-shadow-brown);
+    }
+
+    @media (max-width: 1280px) {
+        .watch-content .time {
+            width: 60%;
+        }
+    }
+
+    @media (max-width: 860px) {
+        .watch-content .time {
+            width: 60%;
+            margin: 3rem auto;
+        }
+
+        .watch-content .time div {
+            height: 6rem;
+            width: 6rem;
+        }
+
+        .watch-content .time div .digit {
+            font-size: 1.7rem;
+        }
+
+        .watch-content .time div .txt {
+            font-size: .8rem;
+        }
+
+        .btns button {
+            height: 2.3rem;
+            font-size: 1.1rem;
+            width: 7rem;
+            margin: 1rem;
+        }
+
+        body::after {
+            left: 7rem;
+            right: 7rem;
+        }
+
+        .watch-content {
+            margin: 9rem auto;
+        }
+    }
+
+    @media (max-width: 755px) {
+
+        .watch-content {
+            margin: 7.5rem auto;
+        }
+
+        .watch-content h2 {
+            font-size: 1.2rem;
+            padding: .5rem 3rem;
+        }
+
+        .watch-content .time {
+            width: 100%;
+        }
+
+        body::after {
+            left: 0;
+            right: 0;
+        }
+    }
+
+    @media (max-width: 465px) {
+        .watch-content .time div {
+            height: 5rem;
+            width: 5rem;
+        }
+
+        .btns button {
+            height: 2.2rem;
+            font-size: 1rem;
+            width: 6rem;
+            margin: .5rem;
+        }
+    }
+</style>
+
+<script>
+
+    /*--------- ctrl button lock Starts ---------- */
+    document.onkeydown = function (e) {
+        if (e.ctrlKey) {
+            return false;
+        }
+    };
+
+    // document.addEventListener('contextmenu', event => event.preventDefault());
+
+    const hrTxt = document.getElementById('hr');
+    const minTxt = document.getElementById('min');
+    const secTxt = document.getElementById('sec');
+    const countTxt = document.getElementById('count');
+
+    let hr = 0;
+    let min = 0;
+    let sec = 0;
+    let count = 0;
+    let timer = false;
+
+    const start = () => {
+        timer = true;
+        stopwatch();
+    }
+    const stop = () => {
+        timer = false;
+    }
+    const reset = () => {
+        timer = false;
+        hr = 0;
+        min = 0;
+        sec = 0;
+        count = 0;
+        hrTxt.innerHTML = "00";
+        minTxt.innerHTML = "00";
+        secTxt.innerHTML = "00";
+        countTxt.innerHTML = "00";
+    }
+
+    const stopwatch = () => {
+        if (timer == true) {
+            count += 1;
+
+            if (count == 100) {
+                sec += 1;
+                count = 0;
+            }
+            if (sec == 60) {
+                min += 1;
+                sec = 0;
+            }
+            if (min == 60) {
+                hr += 1;
+                min = 0;
+                sec = 0;
+            }
+
+            var hrStr = hr;
+            var minStr = min;
+            var secStr = sec;
+            var countStr = count;
+
+            if (hr < 10) {
+                hrstr = "0" + hrStr;
+            }
+            if (min < 10) {
+                minStr = "0" + minStr;
+            }
+            if (sec < 10) {
+                secStr = "0" + secStr;
+            }
+            if (count < 10) {
+                countStr = "0" + countStr;
+            }
+            
+            hrTxt.innerHTML = hrstr;
+            minTxt.innerHTML = minStr;
+            secTxt.innerHTML = secStr;
+            countTxt.innerHTML = countStr;
+
+            setTimeout("stopwatch()", 10);
+        }
+    }
+
+</script>
+
+</html>
